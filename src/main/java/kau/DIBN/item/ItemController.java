@@ -5,6 +5,7 @@ import kau.DIBN.likeitem.LikeItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +23,18 @@ public class ItemController {
         return itemService.getAllItemInfos();
     }
 
+    // 카테고리에 따른 모든 아이템 리턴
     @GetMapping("/item/{category}")
-    public List<ItemInfo> getAllItemByCategory(@PathVariable("category") int category) {
+    public List<ItemInfo> getAllItemByCategory(@PathVariable("category") String category) {
         return itemService.getAllItemInfosByCategory(category);
     }
 
+    @GetMapping("/item/search/{keyword}")
+    public List<ItemInfo> getItemBySearchKeyword(@PathVariable("keyword") String keyword) {
+        return itemService.searchNameByKeyword(keyword);
+    }
+
+    // itemId로 좋아요 추가
     @GetMapping("/item/like/{itemId}")
     public Long increaseItemLike(@PathVariable("itemId") long itemId) {
 
@@ -36,7 +44,7 @@ public class ItemController {
     }
 
     @PostMapping("/market/item")
-    public Long addItem(@RequestBody Map<String, String> item) {
+    public Long addItem(HttpServletRequest httpServletRequest, @RequestBody Map<String, String> item) {
         return itemService.addItem(item);
     }
 

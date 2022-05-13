@@ -1,9 +1,14 @@
 package kau.DIBN.market;
 
 import kau.DIBN.item.Item;
+import kau.DIBN.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +17,7 @@ import java.util.Map;
 public class MarketController {
     private final MarketService marketService;
     private final MarketRepository marketRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 마켓 id로 검색
     @GetMapping("/market/{marketId}")
@@ -27,9 +33,7 @@ public class MarketController {
                 .name(market.get("name"))
                 .phone(market.get("phone"))
                 .address(market.get("address"))
-                .category(market.get("category"))
                 .build()).getId();
     }
-
 
 }

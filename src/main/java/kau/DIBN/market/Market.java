@@ -25,7 +25,10 @@ public class Market {
     private String name;
     private String address;
     private String phone;
-    private String category; // wood metal leather etc
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id") // FK 있는쪽
+    private Member member;
 
     @OneToMany(mappedBy = "market")
     private List<Item> items = new ArrayList<>();

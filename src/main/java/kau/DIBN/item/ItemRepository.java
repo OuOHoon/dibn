@@ -1,6 +1,5 @@
 package kau.DIBN.item;
 
-import kau.DIBN.market.Market;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +7,7 @@ import java.util.List;
 
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
-    public List<Item> findAllByCategory(int category);
+    public List<Item> findAllByCategory(String category);
+
+    public List<Item> findByNameContaining(String name);
 }
