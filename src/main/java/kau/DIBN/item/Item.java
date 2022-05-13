@@ -1,5 +1,6 @@
 package kau.DIBN.item;
 
+import kau.DIBN.artist.Artist;
 import kau.DIBN.market.Market;
 import kau.DIBN.member.Member;
 import kau.DIBN.order.Orders;
@@ -27,10 +28,15 @@ public class Item {
     private String description; // 상품 설명
     private int period; // 상품 제작 기간
     private int likes; // 좋아요 수
+    private String category; // 카테고리 wood metal leather etc
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "market_id")
     private Market market; // 상품이 등록된 마켓
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artist_id")
+    private Artist artistObject;
 
     @OneToMany(mappedBy = "item")
     private List<Orders> orders = new ArrayList<>();

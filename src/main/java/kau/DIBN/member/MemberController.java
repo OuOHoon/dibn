@@ -23,6 +23,18 @@ public class MemberController {
     // 회원가입
     @PostMapping("/join")
     public Long join(@RequestBody Map<String, String> user) {
+        if (user.get("role").equals("USER")){
+            Long memberId = memberRepository.save(Member.builder()
+                    .email(user.get("email"))
+                    .password(passwordEncoder.encode(user.get("password")))
+                    .address(user.get("address"))
+                    .nickname(user.get("nickname"))
+                    .phone(user.get("phone"))
+                    .roles(Collections.singletonList("ROLE_" + user.get("role"))) // 가입시 입력한 Role대로 권한
+                    .build()).getId();
+            return memberId;
+        }
+
         return memberRepository.save(Member.builder()
                 .email(user.get("email"))
                 .password(passwordEncoder.encode(user.get("password")))
@@ -31,6 +43,7 @@ public class MemberController {
                 .phone(user.get("phone"))
                 .roles(Collections.singletonList("ROLE_"+user.get("role"))) // 가입시 입력한 Role대로 권한
                 .build()).getId();
+
     }
 
     // 로그인

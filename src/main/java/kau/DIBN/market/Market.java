@@ -25,7 +25,7 @@ public class Market {
     private String name;
     private String address;
     private String phone;
-    private int category; // 카테고리 0 나무 1 금속 2 가죽
+    private String category; // wood metal leather etc
 
     @OneToMany(mappedBy = "market")
     private List<Item> items = new ArrayList<>();

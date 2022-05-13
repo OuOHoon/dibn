@@ -37,9 +37,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("AMDIN")
-                .antMatchers("/market/**").hasRole("MARKET") // 상품, 마켓 등록 권한
-                .antMatchers("/user/**").hasRole("USER") // 주문 신청 권한
+                //.antMatchers("/admin/**").hasRole("AMDIN")
+                //.antMatchers("/market/**").hasRole("MARKET") // 상품, 마켓 등록 권한
+                //.antMatchers("/user/**").hasRole("USER") // 주문 신청 권한
                 .antMatchers("/**").permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),

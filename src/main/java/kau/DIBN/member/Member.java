@@ -25,10 +25,15 @@ public class Member implements UserDetails {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String nickname;
+    @Column(nullable = false)
     private String address;
+    @Column(unique = true, nullable = false)
     private String phone;
 
     @ElementCollection(fetch = FetchType.EAGER)
