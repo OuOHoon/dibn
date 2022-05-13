@@ -20,5 +20,8 @@ public class MarketService {
         return marketRepository.findById(marketId).get().getItems();
     }
 
-    //
+    // 마켓 이름 검색어로 검색
+    public List<Market> searchNameByKeyword(String keyword){
+        return null;
+    }
 }

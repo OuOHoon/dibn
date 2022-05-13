@@ -9,4 +9,5 @@ import java.util.List;
 public interface MarketRepository extends JpaRepository<Market, Long> {
 
 
+
 }

@@ -1,5 +1,7 @@
 package kau.DIBN.member;
 
+import kau.DIBN.market.Market;
+import kau.DIBN.market.MarketRepository;
 import kau.DIBN.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,7 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
-
+    private final MarketRepository marketRepository;
 
     // 회원가입
     @PostMapping("/join")
@@ -30,20 +32,27 @@ public class MemberController {
                     .address(user.get("address"))
                     .nickname(user.get("nickname"))
                     .phone(user.get("phone"))
-                    .roles(Collections.singletonList("ROLE_" + user.get("role"))) // 가입시 입력한 Role대로 권한
+                    .roles(Collections.singletonList("ROLE_USER")) // 가입시 입력한 Role대로 권한
                     .build()).getId();
             return memberId;
         }
+        // 마켓 사용자의 경우 마켓에도 추가하고 유저에도 추가
 
-        return memberRepository.save(Member.builder()
+        Member saveMember = memberRepository.save(Member.builder()
                 .email(user.get("email"))
                 .password(passwordEncoder.encode(user.get("password")))
                 .address(user.get("address"))
                 .nickname(user.get("nickname"))
                 .phone(user.get("phone"))
-                .roles(Collections.singletonList("ROLE_"+user.get("role"))) // 가입시 입력한 Role대로 권한
-                .build()).getId();
-
+                .roles(Collections.singletonList("ROLE_MARKET"))// 가입시 입력한 Role대로 권한
+                .build());
+        marketRepository.save(Market.builder()
+                .name(user.get("marketName"))
+                .phone(user.get("phone"))
+                .address(user.get("address"))
+                .member(saveMember)
+                .build());
+        return saveMember.getId();
     }
 
     // 로그인

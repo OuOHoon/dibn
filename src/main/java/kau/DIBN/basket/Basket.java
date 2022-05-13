@@ -1,4 +1,4 @@
-package kau.DIBN.order;
+package kau.DIBN.basket;
 
 import kau.DIBN.item.Item;
 import kau.DIBN.member.Member;
@@ -8,26 +8,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Orders {
+public class Basket {
 
     @Id @GeneratedValue
-    @Column(name = "order_id")
+    @Column(name = "basket_id")
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private OrderState orderState;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
+//    @OneToMany(mappedBy = )
+//    private List<Item> items;
 }
