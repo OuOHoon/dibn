@@ -1,10 +1,19 @@
 package kau.DIBN.item;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import kau.DIBN.nft.NftService;
+import kau.DIBN.nft.WalletDTO;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.web3j.crypto.CipherException;
+import org.web3j.crypto.Wallet;
+import org.web3j.protocol.exceptions.TransactionException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +23,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemService {
 
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
+    private final NftService nftService;
 
     // 가장 최근에 등록한 순으로 모든 아이템 반환
     public List<ItemInfo> getAllItemInfos() {
@@ -61,20 +71,46 @@ public class ItemService {
 
     // 아이템 등록
     @Transactional
-    public Long addItem(Map<String, String> item) {
+    public Long addItem(Map<String, Object> item) throws TransactionException, CipherException, IOException {
+        Map<String, Object> walletInfo = (Map<String, Object>)item.get("nft");
+        String name = item.get("name").toString();
+        String category = item.get("category").toString();
+        String artist = item.get("artist").toString();
+        int price = Integer.parseInt(item.get("price").toString());
+        int period = Integer.parseInt(item.get("period").toString());
+        String description = item.get("description").toString();
+
         Long id = itemRepository.save(Item.builder()
-                .name(item.get("name"))
-                .category(item.get("category"))
-                .artist(item.get("artist"))
-                .price(Integer.parseInt(item.get("price")))
-                .period(Integer.parseInt(item.get("period")))
+                .name(name)
+                .category(category)
+                .artist(artist)
+                .price(price)
+                .period(period)
                 .likes(0)
-                .description(item.get("description"))
+                .description(description)
                 .build()).getId();
 
+        Item itemInfo = itemRepository.findById(id).get();
+
+        WalletDTO wallet = new WalletDTO();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String keystore = objectMapper.writeValueAsString(walletInfo.get("keystore"));
+
+        wallet.setKeystore(keystore);
+        wallet.setPasswd(walletInfo.get("passwd").toString());
+
         // 여기서 nft 만들어야함
-        // item.get("nft");
+        if(nftService.NftMint(wallet, itemInfo)==-1)
+        {
+            //어떻게 실패해서 롤백되게?
+            return null;
+        }
+
+
+
+
         return id;
+        //return null;
     }
 
 
