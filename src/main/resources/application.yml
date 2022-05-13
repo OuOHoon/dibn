@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/dibn
     username: root
-    password: goddamnit02!
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 #  security:

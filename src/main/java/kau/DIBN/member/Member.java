@@ -1,6 +1,7 @@
 package kau.DIBN.member;
 
 import kau.DIBN.item.Item;
+import kau.DIBN.likeitem.LikeItem;
 import kau.DIBN.market.Market;
 import kau.DIBN.order.Orders;
 import lombok.*;
@@ -42,6 +43,10 @@ public class Member implements UserDetails {
 
     @OneToMany(mappedBy = "member")
     private List<Orders> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<LikeItem> likeItems = new ArrayList<>();
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

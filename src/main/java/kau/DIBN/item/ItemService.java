@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -67,13 +68,25 @@ public class ItemService {
                 .artist(item.get("artist"))
                 .price(Integer.parseInt(item.get("price")))
                 .period(Integer.parseInt(item.get("period")))
+                .likes(0)
                 .description(item.get("description"))
                 .build()).getId();
 
         // 여기서 nft 만들어야함
         // item.get("nft");
-
-
         return id;
     }
+
+
+    public Long increaseLike(Long itemId) {
+        Optional<Item> findItem = itemRepository.findById(itemId);
+
+        Item item = findItem.get();
+        item.increaseLike();
+        Item save = itemRepository.save(item);
+
+
+        return save.getId();
+    }
+
 }
