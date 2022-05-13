@@ -29,6 +29,7 @@ public class Item {
     private int period; // 상품 제작 기간
     private int likes; // 좋아요 수
     private String category; // 카테고리 wood metal leather etc
+    private int tokenId; // NFT Token Id
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "market_id")
@@ -40,4 +41,8 @@ public class Item {
 
     @OneToMany(mappedBy = "item")
     private List<Orders> orders = new ArrayList<>();
+
+    public void increaseLike() {
+        this.likes += 1;
+    }
 }
