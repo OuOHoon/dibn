@@ -27,7 +27,7 @@ public class MarketController {
                 .name(market.get("name"))
                 .phone(market.get("phone"))
                 .address(market.get("address"))
-                .category(Integer.parseInt(market.get("category")))
+                .category(market.get("category"))
                 .build()).getId();
     }
 

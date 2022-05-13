@@ -24,9 +24,14 @@ public class NftService {
 
     //private ItemReposiroty itemReposiroty;
     public String NftMint(String nftJson, ItemInfo iteminfo) throws IOException, CipherException, TransactionException {
+        System.out.println(1);
 
         ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println(nftJson);
+
         WalletDTO wallet = objectMapper.readValue(nftJson, WalletDTO.class);
+
+        System.out.println(wallet);
 
         Caver caver = new Caver("https://api.baobab.klaytn.net:8651/");
         AbstractKeyring keyring = KeyringFactory.decrypt(wallet.getKeystore(), wallet.getPasswd());
