@@ -12,8 +12,4 @@ public class DibnApplication {
 		SpringApplication.run(DibnApplication.class, args);
 	}
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
 }

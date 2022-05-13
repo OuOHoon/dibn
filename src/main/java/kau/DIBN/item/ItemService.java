@@ -23,7 +23,7 @@ public class ItemService {
             ItemInfo itemInfo = ItemInfo.builder()
                     .itemId(item.getId())
                     .artist(item.getArtist())
-                    .like(item.getLike())
+                    .like(item.getLikes())
                     .period(item.getPeriod())
                     .marketName(item.getMarket().getName())
                     .category(item.getMarket().getCategory())

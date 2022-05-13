@@ -1,12 +1,14 @@
 package kau.DIBN.nft;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.klaytn.caver.Caver;
 import com.klaytn.caver.contract.Contract;
 import com.klaytn.caver.contract.SendOptions;
 import com.klaytn.caver.methods.response.TransactionReceipt;
 import com.klaytn.caver.wallet.keyring.AbstractKeyring;
 import com.klaytn.caver.wallet.keyring.KeyringFactory;
+import kau.DIBN.item.ItemInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.CipherException;
@@ -21,7 +23,11 @@ import java.math.BigInteger;
 public class NftService {
 
     //private ItemReposiroty itemReposiroty;
-    public String NftMint(WalletDTO wallet, ItemInfo iteminfo) throws IOException, CipherException, TransactionException {
+    public String NftMint(String nftJson, ItemInfo iteminfo) throws IOException, CipherException, TransactionException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        WalletDTO wallet = objectMapper.readValue(nftJson, WalletDTO.class);
+
         Caver caver = new Caver("https://api.baobab.klaytn.net:8651/");
         AbstractKeyring keyring = KeyringFactory.decrypt(wallet.getKeystore(), wallet.getPasswd());
         caver.wallet.add(keyring);
@@ -38,11 +44,11 @@ public class NftService {
             opts.setGas(BigInteger.valueOf(4000000));
             System.out.println(4);
 
-            int id = iteminfo.id;
-            String artist = iteminfo.artist;
+            Long id = iteminfo.getItemId();
+            String artist = iteminfo.getArtist();
             //String img = iteminfo.itemImg;
             String img = "imgurlurl";
-            String desc = iteminfo.description;
+            String desc = iteminfo.getDescription();
             TransactionReceipt.TransactionReceiptData receipt = cont.send(opts, "mintItem",id, artist, img, desc);
             res = receipt.toString();
         } catch (IOException | TransactionException | ClassNotFoundException | NoSuchMethodException |
@@ -53,8 +59,4 @@ public class NftService {
         System.out.println(res);
         return res;
     }
-
-
-
-
 }

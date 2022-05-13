@@ -26,7 +26,7 @@ public class Item {
     private int price; // 상품 가격
     private String description; // 상품 설명
     private int period; // 상품 제작 기간
-    private int like; // 좋아요 수
+    private int likes; // 좋아요 수
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "market_id")
