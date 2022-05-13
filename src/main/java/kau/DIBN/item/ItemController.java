@@ -1,18 +1,17 @@
 package kau.DIBN.item;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
-
+    private final ItemRepository itemRepository;
 
     // 모든 아이템 리턴
     @GetMapping("/item/all")
@@ -20,12 +19,14 @@ public class ItemController {
         return itemService.getAllItemInfos();
     }
 
-    @GetMapping("/item/")
+    @GetMapping("/item/{category}")
+    public List<ItemInfo> getAllItemByCategory(@PathVariable("category") int category) {
+        return itemService.getAllItemInfosByCategory(category);
+    }
 
     @PostMapping("/market/item")
-    public Item addItem() {
-
-        return null;
+    public Long addItem(@RequestBody Map<String, String> item) {
+        return itemService.addItem(item);
     }
 
 }
