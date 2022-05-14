@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/dibn
     username: root
-    password: root
+    password: asdf44331
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 #  security:
@@ -43,7 +43,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true

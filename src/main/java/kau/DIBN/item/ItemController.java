@@ -3,6 +3,7 @@ package kau.DIBN.item;
 import com.klaytn.caver.Caver;
 import kau.DIBN.likeitem.LikeItem;
 import kau.DIBN.likeitem.LikeItemRepository;
+import kau.DIBN.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ public class ItemController {
     private final ItemService itemService;
     private final ItemRepository itemRepository;
     private final LikeItemRepository likeItemRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 모든 아이템 리턴
     @GetMapping("/item/all")
@@ -50,7 +52,7 @@ public class ItemController {
 
     @PostMapping("/market/item")
     public Long addItem(HttpServletRequest httpServletRequest, @RequestBody Map<String, Object> item) throws TransactionException, CipherException, IOException {
-        return itemService.addItem(item);
+        return itemService.addItem(jwtTokenProvider.resolveToken(httpServletRequest), item);
     }
 
     @PostMapping("/item/img")

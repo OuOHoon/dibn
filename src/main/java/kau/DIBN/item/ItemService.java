@@ -1,15 +1,18 @@
 package kau.DIBN.item;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kau.DIBN.member.MemberRepository;
 import kau.DIBN.nft.NftService;
 import kau.DIBN.nft.WalletDTO;
 import kau.DIBN.artist.ArtistRepository;
 import kau.DIBN.market.MarketRepository;
+import kau.DIBN.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.web3j.crypto.CipherException;
 import org.web3j.protocol.exceptions.TransactionException;
 
@@ -27,6 +30,8 @@ public class ItemService {
     private final NftService nftService;
     private final ArtistRepository artistRepository;
     private final MarketRepository marketRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final MemberRepository memberRepository;
 
     // 가장 최근에 등록한 순으로 모든 아이템 반환
     public List<ItemInfo> getAllItemInfos() {
@@ -36,6 +41,7 @@ public class ItemService {
 
         for (Item item: findList) {
             ItemInfo itemInfo = ItemInfo.builder()
+                    .name(item.getName())
                     .itemId(item.getId())
                     .artist(item.getArtist())
                     .like(item.getLikes())
@@ -73,8 +79,10 @@ public class ItemService {
 
     // 아이템 등록
     @Transactional
-    public Long addItem(Map<String, Object> item) throws TransactionException, CipherException, IOException {
+    public Long addItem(String token, Map<String, Object> item) throws TransactionException, CipherException, IOException {
         Map<String, Object> walletInfo = (Map<String, Object>)item.get("nft");
+        System.out.println("itemName:" + item.get("name"));
+
         String name = item.get("name").toString();
         String category = item.get("category").toString();
         String artist = item.get("artist").toString();
@@ -90,6 +98,7 @@ public class ItemService {
                 .period(period)
                 .likes(0)
                 .description(description)
+                .market(memberRepository.findByEmail(jwtTokenProvider.getUserPk(token)).get().getMarket())
                 .build()).getId();
 
 
