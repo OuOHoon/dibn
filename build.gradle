@@ -34,6 +34,11 @@ dependencies {
 	implementation 'com.klaytn.caver:core:1.8.0'
 	implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 	// 블록체인 관련 끝
+
+	// 파일 업로드 관련
+	implementation 'commons-io:commons-io:2.11.0'
+	// 파일 업로드 관련 끝
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'

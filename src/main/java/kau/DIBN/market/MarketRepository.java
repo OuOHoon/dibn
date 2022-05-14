@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface MarketRepository extends JpaRepository<Market, Long> {
 
-
+    public List<Market> findMarketsByNameContaining(String keyword);
 
 }

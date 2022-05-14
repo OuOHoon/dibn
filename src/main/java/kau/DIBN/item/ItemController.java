@@ -5,6 +5,7 @@ import kau.DIBN.likeitem.LikeItem;
 import kau.DIBN.likeitem.LikeItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.web3j.crypto.CipherException;
 import org.web3j.protocol.exceptions.TransactionException;
 
@@ -53,12 +54,13 @@ public class ItemController {
     }
 
     @PostMapping("/item/img")
-    public String uploadItemImage(@RequestBody byte[] img) throws IOException {
+    public String uploadItemImage(@RequestParam MultipartFile img) throws IOException {
         System.out.println("::::::::::::::::::::::::::::::::::::::::");
         System.out.println(img);
+        byte[] data = img.getBytes();
         Caver caver = new Caver();
         caver.ipfs.setIPFSNode("ipfs.infura.io", 5001, true);
-        String cid = caver.ipfs.add(img);
+        String cid = caver.ipfs.add(data);
 
         return cid;
     }

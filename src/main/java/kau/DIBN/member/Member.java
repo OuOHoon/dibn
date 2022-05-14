@@ -1,6 +1,6 @@
 package kau.DIBN.member;
 
-import kau.DIBN.basket.Basket;
+import kau.DIBN.cart.Cart;
 import kau.DIBN.item.Item;
 import kau.DIBN.likeitem.LikeItem;
 import kau.DIBN.market.Market;
@@ -51,8 +51,8 @@ public class Member implements UserDetails {
     @OneToOne(mappedBy = "member", fetch = FetchType.LAZY) // FK 없는쪽
     private Market market;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
-    private Basket basket;
+    @OneToMany(mappedBy = "member")
+    private List<Cart> cart = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -36,7 +36,7 @@ public class MemberController {
                     .build()).getId();
             return memberId;
         }
-        // 마켓 사용자의 경우 마켓에도 추가하고 유저에도 추가
+        // 마켓 사용자의 경우 마켓에도 추가하고 유저에도 추
 
         Member saveMember = memberRepository.save(Member.builder()
                 .email(user.get("email"))

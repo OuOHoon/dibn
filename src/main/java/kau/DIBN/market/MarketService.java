@@ -22,6 +22,6 @@ public class MarketService {
 
     // 마켓 이름 검색어로 검색
     public List<Market> searchNameByKeyword(String keyword){
-        return null;
+        return marketRepository.findMarketsByNameContaining(keyword);
     }
 }

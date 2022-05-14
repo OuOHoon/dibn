@@ -92,6 +92,7 @@ public class ItemService {
                 .description(description)
                 .build()).getId();
 
+
         Item itemInfo = itemRepository.findById(id).get();
 
         WalletDTO wallet = new WalletDTO();
