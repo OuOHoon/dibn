@@ -1,5 +1,6 @@
 package kau.DIBN.item;
 
+import com.klaytn.caver.Caver;
 import kau.DIBN.likeitem.LikeItem;
 import kau.DIBN.likeitem.LikeItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,4 +52,22 @@ public class ItemController {
         return itemService.addItem(item);
     }
 
+    @PostMapping("/item/img")
+    public String uploadItemImage(@RequestBody byte[] img) throws IOException {
+        System.out.println("::::::::::::::::::::::::::::::::::::::::");
+        System.out.println(img);
+        Caver caver = new Caver();
+        caver.ipfs.setIPFSNode("ipfs.infura.io", 5001, true);
+        String cid = caver.ipfs.add(img);
+
+        return cid;
+    }
+
+    @GetMapping("/item/img/get")
+    public byte[] getItemImage(@RequestParam("cid") String cid) throws IOException {
+        Caver caver = new Caver();
+        caver.ipfs.setIPFSNode("ipfs.infura.io", 5001, true);
+        byte[] bytecode = caver.ipfs.get(cid);
+        return bytecode;
+    }
 }
