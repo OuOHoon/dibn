@@ -127,7 +127,7 @@ public class ItemService {
 
     // 아이템 목록을 이름 키워드로 검색
     public List<ItemInfo> searchNameByKeyword(String keyword) {
-        List<Item> findList = itemRepository.findByNameContaining(keyword);
+        List<Item> findList = itemRepository.findAllByNameContaining("%"+keyword+"%");
 
         List<ItemInfo> result = new ArrayList<>();
 

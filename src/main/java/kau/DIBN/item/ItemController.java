@@ -25,24 +25,25 @@ public class ItemController {
     private final JwtTokenProvider jwtTokenProvider;
 
     // 모든 아이템 리턴
-    @GetMapping("/item/all")
+    @PostMapping("/item/all")
     public List<ItemInfo> getAllItem() {
         return itemService.getAllItemInfos();
     }
 
     // 카테고리에 따른 모든 아이템 리턴
-    @GetMapping("/item/{category}")
+    @PostMapping("/item/{category}")
     public List<ItemInfo> getAllItemByCategory(@PathVariable("category") String category) {
         return itemService.getAllItemInfosByCategory(category);
     }
 
-    @GetMapping("/item/search/{keyword}")
+    @PostMapping("/item/search/{keyword}")
     public List<ItemInfo> getItemBySearchKeyword(@PathVariable("keyword") String keyword) {
+        System.out.println("keyword = " + keyword);
         return itemService.searchNameByKeyword(keyword);
     }
 
     // itemId로 좋아요 추가
-    @GetMapping("/item/like/{itemId}")
+    @PostMapping("/item/like/{itemId}")
     public Long increaseItemLike(@PathVariable("itemId") long itemId) {
 
         itemService.increaseLike(itemId);
